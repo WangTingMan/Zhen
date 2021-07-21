@@ -72,6 +72,13 @@ public:
         bool                                              a_combine = true
         );
 
+    boost::signals2::connection connectOneShotTimerTo
+        (
+        const std::function<void()>& a_slot,
+        unsigned int                 a_milliseconds,
+        bool                         a_combine = true
+        );
+
     bool IsPageManagerRunningThread();
 
     virtual ~PageManager();

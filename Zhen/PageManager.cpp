@@ -323,6 +323,21 @@ boost::signals2::connection PageManager::connectTimerTo
     return m_timerImpl->m_timerHanlder->connectTo( a_slot, a_milliseconds, a_combine );
 }
 
+boost::signals2::connection PageManager::connectOneShotTimerTo
+(
+    const std::function<void()>& a_slot,
+    unsigned int                 a_milliseconds,
+    bool                         a_combine
+    )
+{
+    auto fun = [a_slot]()->bool
+    {
+        a_slot();
+        return false;
+    };
+    return connectTimerTo( fun, a_milliseconds, a_combine );
+}
+
 bool PageManager::IsPageManagerRunningThread()
 {
     return std::this_thread::get_id() == m_runningThread;
