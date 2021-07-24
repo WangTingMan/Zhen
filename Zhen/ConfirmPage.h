@@ -19,6 +19,7 @@ public:
         std::function<void()> a_function
         )
     {
+        m_yesChoosed.disconnect_all_slots();
         return m_yesChoosed.connect( a_function );
     }
 
@@ -27,6 +28,7 @@ public:
         std::function<void()> a_function
         )
     {
+        m_noChoosed.disconnect_all_slots();
         return m_noChoosed.connect( a_function );
     }
 
