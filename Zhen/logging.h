@@ -24,6 +24,28 @@ using LogCallBack = std::function<bool( const char* /*FILE*/, int/*line*/, LogLe
 
 void SetLogCallBack( LogCallBack a_callBack );
 
+std::string binary_to_hex_string
+    (
+    const char* a_buffer,
+    uint16_t a_size
+    );
+
+struct BinaryBuffer
+{
+    BinaryBuffer( const char* a_buffer, uint16_t a_size )
+        : buffer( a_buffer )
+        , size( a_size )
+    {
+    }
+
+    BinaryBuffer() {}
+
+    const char* buffer = nullptr;
+    uint16_t size = 0u;
+};
+
+std::ostream& operator<<( std::ostream& os, BinaryBuffer a_buffer );
+
 class LogRecorder
 {
 

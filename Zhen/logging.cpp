@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cstdarg>
+#include <iomanip>
 
 #define LOGLINE_SIZE 256
 
@@ -121,3 +122,30 @@ void Zhen::Logger::Recorder( const char* msg, ... ) const
     recorder << logStr;
 }
 
+std::ostream& Zhen::operator<<( std::ostream& os, Zhen::BinaryBuffer a_buffer )
+{
+    os << binary_to_hex_string( a_buffer.buffer, a_buffer.size );
+    return os;
+}
+
+std::string Zhen::binary_to_hex_string
+    (
+    const char* a_buffer,
+    uint16_t a_size
+    )
+{
+    if( !a_buffer || a_size == 0 )
+    {
+        return "";
+    }
+
+    std::stringstream ss;
+    ss << std::hex << std::uppercase << std::noshowbase;
+
+    for( uint16_t i = 0; i < a_size; ++i )
+    {
+        ss << std::setw( 2 ) << std::setfill( '0' )
+            << ( a_buffer[i] & 0xFF ) << ' ';
+    }
+    return ss.str();
+}
