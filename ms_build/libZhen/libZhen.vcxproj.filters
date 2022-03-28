@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="source files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="header files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Zhen\BasePage.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Zhen\BasePromptedPage.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Zhen\ConfirmPage.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Zhen\GeneralTimer.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Zhen\KeyboardReader.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Zhen\logging.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Zhen\menu.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Zhen\OptionContent.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Zhen\PageManager.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Zhen\StrandCommandScheduler.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Zhen\StringContent.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Zhen\TitleContent.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Zhen\BasePage.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\BasePromptedPage.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\BasicContent.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\CommandHolder.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\ConfirmPage.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\Event.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\ExecutbleEvent.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\GeneralTimer.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\GuardWatcher.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\KeyBoardInputEvent.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\KeyboardReader.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\logging.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\menu.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\OptionContent.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\PageManager.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\StrandCommandScheduler.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\StringContent.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Zhen\TitleContent.h">
+      <Filter>header files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

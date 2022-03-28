@@ -1,0 +1,7 @@
+buildtools
+out
+third_party
+.idea/
+.vs/
+Debug/
+x64/
