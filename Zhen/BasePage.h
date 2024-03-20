@@ -53,7 +53,21 @@ public:
         AddDefaultActionToMenu();
     }
 
-    void PageNeedFresh();
+    ~BasePage()
+    {
+        m_combineFreshTimerConnection.disconnect();
+    }
+
+    /**
+     * Notify this page need fresh onto screen.
+     * if a_combine equals true, then the freshing action will be executed a_combineTime
+     * milliseconds later.
+     */
+    void PageNeedFresh
+        (
+        bool a_combine = false,
+        uint32_t a_combineTime = 1000
+        );
 
     template<typename T,
         typename = typename std::enable_if<
@@ -102,6 +116,8 @@ private:
     bool m_hasRegisteredFreshPageEvent = false;
 
     std::string m_pageName;
+
+    boost::signals2::connection m_combineFreshTimerConnection;
 };
 
 #endif

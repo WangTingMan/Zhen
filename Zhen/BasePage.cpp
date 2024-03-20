@@ -4,6 +4,10 @@
 #include "ExecutbleEvent.h"
 #include <iostream>
 
+#ifdef _MSC_VER
+#include <windows.h>
+#endif
+
 std::string BasePage::GetPrintableString()const
 {
     std::string ret;
@@ -101,16 +105,41 @@ void BasePage::AddMenuAction( std::shared_ptr<Action> a_action )
     m_menu.AddAction( a_action );
 }
 
-void BasePage::PageNeedFresh()
+void BasePage::PageNeedFresh
+    (
+    bool a_combine,
+    uint32_t a_combineTime
+    )
 {
-    if( m_hasRegisteredFreshPageEvent )
+    if( a_combine )
     {
-        return;
-    }
+        if( m_combineFreshTimerConnection.connected() )
+        {
+            return;
+        }
 
-    std::shared_ptr< BasePage > page = std::dynamic_pointer_cast< BasePage >( shared_from_this() );
-    std::shared_ptr< ExecutbleEvent > event = std::make_shared<ExecutbleEvent>(
-        [=]()
+        std::shared_ptr<BasePage> page = std::dynamic_pointer_cast<BasePage>( shared_from_this() );
+        std::function<void()> fun;
+        fun = [page]()
+        {
+            if( PageManager::GetInstance().GetTopPage() == page )
+            {
+                PageManager::GetInstance().FreshTopPageShow();
+            }
+        };
+
+        m_combineFreshTimerConnection = PageManager::GetInstance().connectOneShotTimerTo( fun, a_combineTime, true );
+    }
+    else
+    {
+        if( m_hasRegisteredFreshPageEvent )
+        {
+            return;
+        }
+
+        std::shared_ptr< BasePage > page = std::dynamic_pointer_cast< BasePage >( shared_from_this() );
+        std::shared_ptr< ExecutbleEvent > event = std::make_shared<ExecutbleEvent>(
+            [=]()
         {
             if( PageManager::GetInstance().GetTopPage() == page )
             {
@@ -120,7 +149,8 @@ void BasePage::PageNeedFresh()
         }
         );
 
-    PageManager::GetInstance().PostEvent( std::move( event ) );
-    m_hasRegisteredFreshPageEvent = true;
+        PageManager::GetInstance().PostEvent( std::move( event ) );
+        m_hasRegisteredFreshPageEvent = true;
+    }
 }
 
