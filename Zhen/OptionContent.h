@@ -10,9 +10,11 @@ class OptionContent : public TitleContent
 
 public:
 
+    static constexpr std::size_t s_invalid_id = 0u;
+
     bool OnEvent( std::shared_ptr<Event> a_event )override;
 
-    std::string AddOption
+    std::size_t AddOption
         (
         std::string a_option,
         std::function<void()> a_optionSelectCallBack = std::function<void()>()
@@ -22,7 +24,7 @@ public:
 
     void ClearOption()
     {
-        m_opthions.clear();
+        m_options.clear();
     }
 
     void SetExecutable
@@ -35,19 +37,34 @@ public:
 
     std::size_t GetOptionCount()const
     {
-        return m_opthions.size();
+        return m_options.size();
     }
+
+    /**
+     * Set specific option visiable or not.
+     * [in] a_id which option to set
+     * [in] a_visiable visiable or not
+     * [return] true: found and set; false: cannot find or already be a_visiable
+     */
+    bool SetVisiable
+        (
+        std::size_t a_id,
+        bool a_visiable = true
+        );
 
 private:
 
-    struct Opthion
+    struct Option
     {
-        std::string index;
-        std::string opthion;
-        std::function<void()> callback;
+        std::size_t id;     // identification for this option
+        std::string index;  // index for this option, type the index then the callback will be invoked
+        std::string option_title;// title of this option
+        std::function<void()> callback; // when actived, this callbeck will be executed
+        bool visiable = true;
     };
 
-    std::vector<Opthion> m_opthions;
+    std::size_t m_current_id = 1u;
+    std::vector<Option> m_options;
     bool m_executable = true;
 };
 

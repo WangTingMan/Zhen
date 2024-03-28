@@ -13,9 +13,10 @@ bool OptionContent::OnEvent( std::shared_ptr<Event> a_event )
     }
 
     std::shared_ptr<KeyBoardInputEvent> event = std::dynamic_pointer_cast< KeyBoardInputEvent >( a_event );
-    for( auto & ele : m_opthions )
+    for( auto & ele : m_options )
     {
-        if( ele.index == event->GetInputedText() )
+        if( ele.visiable &&
+            ( ele.index == event->GetInputedText() ) )
         {
             if( ele.callback )
             {
@@ -31,40 +32,91 @@ bool OptionContent::OnEvent( std::shared_ptr<Event> a_event )
 std::string OptionContent::GetPrintableString()const
 {
     std::string ret;
-    if( m_opthions.empty() )
+    if( m_options.empty() )
     {
         return ret;
     }
 
     ret = TitleContent::GetPrintableString();
 
-    for( int i = 0; i < m_opthions.size(); ++i )
+    for( int i = 0; i < m_options.size(); ++i )
     {
+        if( !m_options[i].visiable )
+        {
+            continue;
+        }
+
         if( m_executable )
         {
-            ret.append( "[" ).append( m_opthions[i].index ).append( "]" );
+            ret.append( "[" ).append( m_options[i].index ).append( "]" );
         }
         else
         {
-            ret.append( m_opthions[i].index );
+            ret.append( m_options[i].index );
         }
-        ret.append( ". " ).append( m_opthions[i].opthion ).append( "\n" );
+        ret.append( ". " ).append( m_options[i].option_title ).append( "\n" );
     }
     return ret;
 }
 
-std::string OptionContent::AddOption
+bool OptionContent::SetVisiable
+    (
+    std::size_t a_id,
+    bool a_visiable
+    )
+{
+    if( a_id == s_invalid_id )
+    {
+        return false;
+    }
+
+    bool status = false;
+    for( auto& ele : m_options )
+    {
+        if( ele.id == a_id )
+        {
+            if( a_visiable == ele.visiable )
+            {
+                return false;
+            }
+            ele.visiable = a_visiable;
+            status = true;
+            break;
+        }
+    }
+
+    if( !status )
+    {
+        return status;
+    }
+
+    std::size_t current_index = 1;
+    for( auto& ele : m_options )
+    {
+        if( ele.visiable )
+        {
+            ele.index = std::to_string( current_index++ );
+        }
+    }
+
+    return status;
+}
+
+std::size_t OptionContent::AddOption
     (
     std::string a_option,
     std::function<void()> a_optionSelectCallBack
     )
 {
-    Opthion opthion;
-    opthion.callback = a_optionSelectCallBack;
-    opthion.opthion = a_option;
-    opthion.index = std::to_string( m_opthions.size() + 1 );
+    Option option;
+    std::size_t id = m_options.size() + 1;
+    option.callback = a_optionSelectCallBack;
+    option.option_title = a_option;
+    option.index = std::to_string( id );
+    option.id = m_current_id++;
+    option.visiable = true;
 
-    m_opthions.push_back( opthion );
-    return opthion.index;
+    m_options.push_back( option );
+    return option.id;
 }
 
