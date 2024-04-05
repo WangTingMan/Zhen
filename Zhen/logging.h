@@ -20,9 +20,18 @@ enum class LogLevel
     Fatal
 };
 
-using LogCallBack = std::function<bool( const char* /*FILE*/, int/*line*/, LogLevel, std::string const&/*tag*/, std::string const& ) >;
+using LogCallBack = std::function<bool( const char* /*FILE*/, int/*line*/,
+    LogLevel, std::string const&/*tag*/, std::string const& ) >;
 
 void SetLogCallBack( LogCallBack a_callBack );
+
+/**
+ * set log file name. Will create a log file with name | a_fileName |
+ * into folder with name | a_path |.
+ */
+void SetLogFileName( std::string a_path, std::string a_fileName );
+
+uint64_t GetCurrentThreadID();
 
 std::string binary_to_hex_string
     (
