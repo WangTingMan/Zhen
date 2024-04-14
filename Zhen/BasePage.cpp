@@ -94,6 +94,16 @@ bool BasePage::OnEvent( std::shared_ptr<Event> a_event )
     return ret;
 }
 
+void BasePage::HandleWillShow()
+{
+
+}
+
+void BasePage::HandleWillHide()
+{
+
+}
+
 void BasePage::AddMenu( Menu&& a_menu, MenuPosition a_postion )
 {
     Menu menu = std::move( a_menu );

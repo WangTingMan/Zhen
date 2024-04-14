@@ -39,6 +39,16 @@ public:
 
     virtual bool OnEvent( std::shared_ptr<Event> a_event );
 
+    /**
+     * This page will be shown onto UI. Just notify page to do something or prepare something
+     */
+    virtual void HandleWillShow();
+
+    /**
+     * This page will be hided from UI. Just notify page to do something or prepare something
+     */
+    virtual void HandleWillHide();
+
     void AddMenu( Menu&& a_menu, MenuPosition a_postion = MenuPosition::Bottom );
 
     void AddMenuAction( std::shared_ptr<Action> a_action );
