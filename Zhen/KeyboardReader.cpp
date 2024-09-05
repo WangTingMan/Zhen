@@ -40,8 +40,12 @@ void KeyboardReader::start()
     if( !isRunning )
     {
         mLineHandler = std::bind( &ReadLineEventCooker, std::placeholders::_1 );
-        std::thread th( &KeyboardReader::read, this );
+        std::shared_ptr<std::promise<void>> pro;
+        pro = std::make_shared<std::promise<void>>();
+        auto future = pro->get_future();
+        std::thread th( &KeyboardReader::read, this, pro );
         mThread = std::move( th );
+        future.wait_for(std::chrono::milliseconds(200));
         isRunning = true;
     }
 }
@@ -59,8 +63,14 @@ void KeyboardReader::stop()
     }
 }
 
-void KeyboardReader::read()
+void KeyboardReader::read(std::shared_ptr<std::promise<void>> a_promise)
 {
+    if (a_promise)
+    {
+        a_promise->set_value();
+        a_promise.reset();
+    }
+
     std::string line;
     while( !isGoingToStop )
     {

@@ -32,6 +32,15 @@ public:
         return m_noChoosed.connect( a_function );
     }
 
+    boost::signals2::connection ConnectToPagePoped
+        (
+        std::function<void()> a_function
+        )
+    {
+        m_pagePoped.disconnect_all_slots();
+        return m_pagePoped.connect( a_function );
+    }
+
     bool OnEvent( std::shared_ptr<Event> a_event ) override;
 
     void SetEnable
@@ -40,6 +49,11 @@ public:
         )
     {
         m_enable = a_enable;
+    }
+
+    void DisconnectPopedSlots()
+    {
+        m_pagePoped.disconnect_all_slots();
     }
 
 private:
@@ -61,5 +75,6 @@ private:
     boost::signals2::connection m_pageToPopedConnection;
     boost::signals2::signal<void()> m_yesChoosed;
     boost::signals2::signal<void()> m_noChoosed;
+    boost::signals2::signal<void()> m_pagePoped;
 };
 

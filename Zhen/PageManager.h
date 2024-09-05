@@ -11,7 +11,6 @@
 
 #include "Event.h"
 #include "BasePage.h"
-#include "KeyboardReader.h"
 
 class BasePage;
 class Timer;
@@ -32,8 +31,10 @@ public:
 
     enum class PageChangedSignalType
     {
-        START,
-        FINISHED
+        START_PUSH_IN,
+        FINISHED_PUSH_IN,
+        START_POP_OUT,
+        FINISHED_POP_OUT
     };
 
     static PageManager& GetInstance();
@@ -45,6 +46,14 @@ public:
     void PostEvent( std::shared_ptr<Event>&& a_event );
 
     int GetDisplayAreaWidth()const;
+
+    void SetDisplayAreadWidth(int a_width)
+    {
+        if (a_width > 10)
+        {
+            m_displayAreaWidth = a_width;
+        }
+    }
 
     void PushPage
         (
@@ -91,13 +100,13 @@ private:
 
     void clearScreen();
 
+    int m_displayAreaWidth = 120;
     std::mutex m_messageMutex;
     std::condition_variable m_notifyCondition;
     std::vector<std::shared_ptr<Event>> m_messages;
 
     std::list<std::shared_ptr<BasePage>> m_pages;
     boost::signals2::signal<void( PageChangedSignalType, std::shared_ptr<BasePage>, bool )>  m_pageChangedSignal;
-    KeyboardReader reader;
     bool m_running = false;
     std::thread::id m_runningThread;
 

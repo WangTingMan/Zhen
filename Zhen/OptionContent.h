@@ -40,6 +40,12 @@ public:
         return m_options.size();
     }
 
+    void SetOptionEnable(std::size_t a_id, bool a_enable = true);
+
+    void ChangedOptionTitle(std::size_t a_id, std::string a_tile);
+
+    void ChangeOptionAction(std::size_t a_id, std::function<void()> a_action);
+
     /**
      * Set specific option visiable or not.
      * [in] a_id which option to set
@@ -54,13 +60,16 @@ public:
 
 private:
 
+    void GenerateCommandIndex();
+
     struct Option
     {
-        std::size_t id;     // identification for this option
-        std::string index;  // index for this option, type the index then the callback will be invoked
-        std::string option_title;// title of this option
-        std::function<void()> callback; // when actived, this callbeck will be executed
-        bool visiable = true;
+        std::size_t id;                 // identification for this option
+        std::string cmd_index;          // index for this option, type the index then the callback will be invoked
+        std::string option_title;       // title of this option
+        std::function<void()> callback; // when active, this callback will be executed
+        bool visiable = true;           // whether print to screen
+        bool enabled = true;            // whether enabled
     };
 
     std::size_t m_current_id = 1u;

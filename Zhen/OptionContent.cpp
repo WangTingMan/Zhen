@@ -16,7 +16,7 @@ bool OptionContent::OnEvent( std::shared_ptr<Event> a_event )
     for( auto & ele : m_options )
     {
         if( ele.visiable &&
-            ( ele.index == event->GetInputedText() ) )
+           (ele.cmd_index == event->GetInputedText() ) )
         {
             if( ele.callback )
             {
@@ -46,13 +46,18 @@ std::string OptionContent::GetPrintableString()const
             continue;
         }
 
+        if (!m_options[i].enabled)
+        {
+            continue;
+        }
+
         if( m_executable )
         {
-            ret.append( "[" ).append( m_options[i].index ).append( "]" );
+            ret.append("[").append(m_options[i].cmd_index).append("]");
         }
         else
         {
-            ret.append( m_options[i].index );
+            ret.append(m_options[i].cmd_index);
         }
         ret.append( ". " ).append( m_options[i].option_title ).append( "\n" );
     }
@@ -90,14 +95,7 @@ bool OptionContent::SetVisiable
         return status;
     }
 
-    std::size_t current_index = 1;
-    for( auto& ele : m_options )
-    {
-        if( ele.visiable )
-        {
-            ele.index = std::to_string( current_index++ );
-        }
-    }
+    GenerateCommandIndex();
 
     return status;
 }
@@ -109,10 +107,10 @@ std::size_t OptionContent::AddOption
     )
 {
     Option option;
-    std::size_t id = m_options.size() + 1;
+    std::size_t index_to_used = m_options.size() + 1;
     option.callback = a_optionSelectCallBack;
     option.option_title = a_option;
-    option.index = std::to_string( id );
+    option.cmd_index = std::to_string(index_to_used);
     option.id = m_current_id++;
     option.visiable = true;
 
@@ -120,3 +118,60 @@ std::size_t OptionContent::AddOption
     return option.id;
 }
 
+void OptionContent::SetOptionEnable(std::size_t a_id, bool a_enable)
+{
+    bool changed = false;
+    for (auto& ele : m_options)
+    {
+        if (ele.id == a_id)
+        {
+            if (ele.enabled != a_enable)
+            {
+                ele.enabled = a_enable;
+                changed = true;
+                break;
+            }
+        }
+    }
+
+    if (changed)
+    {
+        GenerateCommandIndex();
+    }
+}
+
+void OptionContent::ChangedOptionTitle(std::size_t a_id, std::string a_tile)
+{
+    for (auto& ele : m_options)
+    {
+        if (ele.id == a_id)
+        {
+            ele.option_title = a_tile;
+            break;
+        }
+    }
+}
+
+void OptionContent::ChangeOptionAction(std::size_t a_id, std::function<void()> a_action)
+{
+    for (auto& ele : m_options)
+    {
+        if (ele.id == a_id)
+        {
+            ele.callback = a_action;
+            break;
+        }
+    }
+}
+
+void OptionContent::GenerateCommandIndex()
+{
+    int i = 0;
+    for (auto& ele : m_options)
+    {
+        if (ele.enabled)
+        {
+            ele.cmd_index = std::to_string(++i);
+        }
+    }
+}

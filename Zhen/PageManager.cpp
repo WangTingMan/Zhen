@@ -75,7 +75,6 @@ PageManager::PageManager()
 {
     m_timerImpl = std::make_shared<TimerImpl>();
     m_timerThread = std::thread( &TimerImpl::run, m_timerImpl );
-    reader.start();
 }
 
 int PageManager::run()
@@ -136,7 +135,7 @@ void PageManager::PostEvent( std::shared_ptr<Event>&& a_event )
 
 int PageManager::GetDisplayAreaWidth()const
 {
-    return 150;
+    return m_displayAreaWidth;
 }
 
 bool PageManager::HandleEvent( std::shared_ptr<Event>&& a_event )
@@ -180,11 +179,11 @@ void PageManager::PushPage
         return;
     }
 
-    m_pageChangedSignal( PageChangedSignalType::START, a_page, true );
+    m_pageChangedSignal(PageChangedSignalType::START_PUSH_IN, a_page, true);
 
     GuardWatcher watcher( [&a_page, this ]()
         {
-            m_pageChangedSignal( PageChangedSignalType::FINISHED, a_page, true ); 
+            m_pageChangedSignal(PageChangedSignalType::FINISHED_PUSH_IN, a_page, true);
 
             if( m_running )
             {
@@ -243,12 +242,12 @@ void PageManager::PopToPage( std::shared_ptr<BasePage> const& a_page )
         std::list<std::shared_ptr<BasePage>> tmpList( it, m_pages.end() );
         for( auto& ele : tmpList )
         {
-            m_pageChangedSignal( PageChangedSignalType::START, ele, false );
+            m_pageChangedSignal(PageChangedSignalType::START_POP_OUT, ele, false);
         }
         m_pages.erase( it, m_pages.end() );
         for( auto& ele : tmpList )
         {
-            m_pageChangedSignal( PageChangedSignalType::FINISHED, ele, false );
+            m_pageChangedSignal(PageChangedSignalType::FINISHED_POP_OUT, ele, false);
         }
     }
 }
@@ -263,9 +262,9 @@ void PageManager::PopPage( std::shared_ptr<BasePage> const& a_page )
     auto it = std::find( m_pages.begin(), m_pages.end(), a_page );
     if( m_pages.end() != it )
     {
-        m_pageChangedSignal( PageChangedSignalType::START, a_page, false );
+        m_pageChangedSignal(PageChangedSignalType::START_POP_OUT, a_page, false);
         m_pages.erase( it );
-        m_pageChangedSignal( PageChangedSignalType::FINISHED, a_page, false );
+        m_pageChangedSignal(PageChangedSignalType::FINISHED_POP_OUT, a_page, false);
     }
 
     if( m_running )

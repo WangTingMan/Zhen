@@ -1,6 +1,8 @@
 #ifndef KEYBOARD_READER_H__
 #define KEYBOARD_READER_H__
 #include <functional>
+#include <future>
+#include <memory>
 #include <string>
 #include <thread>
 
@@ -29,7 +31,7 @@ private:
 
     bool isGoingToStop = false;
 
-    void read();
+    void read(std::shared_ptr<std::promise<void>> a_promise);
 
     std::thread mThread;
 };

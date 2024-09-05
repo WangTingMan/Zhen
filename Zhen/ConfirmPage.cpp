@@ -22,13 +22,18 @@ void ConfirmPage::OnPageToPoped
     bool                                a_inPageStack
     )
 {
-    std::shared_ptr< ConfirmPage > page = std::dynamic_pointer_cast< ConfirmPage > ( a_page );
-    if( page )
+    std::shared_ptr<ConfirmPage> page = std::dynamic_pointer_cast<ConfirmPage>(a_page);
+    if (!page)
     {
-        if( this == page.get() )
-        {
+        return;
+    }
 
-        }
+
+    if( this == page.get() &&
+        a_type == PageManager::PageChangedSignalType::FINISHED_POP_OUT
+      )
+    {
+        m_pagePoped();
     }
 }
 
