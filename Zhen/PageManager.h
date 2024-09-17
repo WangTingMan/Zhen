@@ -47,7 +47,7 @@ public:
 
     int GetDisplayAreaWidth()const;
 
-    void SetDisplayAreadWidth(int a_width)
+    void SetDisplayAreaWidth(int a_width)
     {
         if (a_width > 10)
         {
