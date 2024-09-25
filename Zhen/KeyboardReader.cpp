@@ -3,6 +3,8 @@
 #include "KeyBoardInputEvent.h"
 #include <thread>
 #include <iostream>
+#include <windows.h>
+#include <conio.h>
 
 void ReadLineEventCooker( std::string&& a_line )
 {
@@ -40,12 +42,12 @@ void KeyboardReader::start()
     if( !isRunning )
     {
         mLineHandler = std::bind( &ReadLineEventCooker, std::placeholders::_1 );
-        std::shared_ptr<std::promise<void>> pro;
-        pro = std::make_shared<std::promise<void>>();
-        auto future = pro->get_future();
-        std::thread th( &KeyboardReader::read, this, pro );
+        std::shared_ptr<std::promise<void>> promise;
+        promise = std::make_shared<std::promise<void>>();
+        auto future = promise->get_future();
+        std::thread th( &KeyboardReader::read, this, promise );
+        future.wait_for( std::chrono::milliseconds( 400 ) );
         mThread = std::move( th );
-        future.wait_for(std::chrono::milliseconds(200));
         isRunning = true;
     }
 }
@@ -54,6 +56,10 @@ void KeyboardReader::stop()
 {
     if( isRunning )
     {
+#ifdef _WIN32
+        HANDLE stdin_handle = GetStdHandle( STD_INPUT_HANDLE );
+        CancelIoEx( stdin_handle, nullptr );
+#endif
         isGoingToStop = true;
         if( mThread.joinable() )
         {
@@ -63,23 +69,38 @@ void KeyboardReader::stop()
     }
 }
 
-void KeyboardReader::read(std::shared_ptr<std::promise<void>> a_promise)
+void KeyboardReader::read( std::shared_ptr<std::promise<void>> a_promise )
 {
-    if (a_promise)
-    {
-        a_promise->set_value();
-        a_promise.reset();
-    }
-
+    a_promise->set_value();
+    a_promise.reset();
     std::string line;
     while( !isGoingToStop )
     {
         line.clear();
         std::getline( std::cin, line );
-        if( mLineHandler )
+        for( auto& ch : line )
         {
-            mLineHandler( std::move( line ) );
+            handleNewCharRead( static_cast<char>( ch ) );
         }
+        handleNewCharRead( char( 13 ) );
     }
 }
 
+void KeyboardReader::handleNewCharRead( char a_ch )
+{
+    std::unique_lock locker( mMutex );
+    if( 13 != a_ch )
+    {
+        mReadString.push_back( a_ch );
+        return;
+    }
+
+    std::string line;
+    line = std::move( mReadString );
+    locker.unlock();
+
+    if( mLineHandler )
+    {
+        mLineHandler( std::move( line ) );
+    }
+}

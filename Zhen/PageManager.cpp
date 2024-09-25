@@ -5,6 +5,8 @@
 #include "GeneralTimer.h"
 
 #include <iostream>
+#include <future>
+#include <memory>
 
 #ifndef _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
 #define _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
@@ -15,6 +17,8 @@
 #define _WIN32_WINNT 0x0A00
 #endif
 #endif
+
+#include <conio.h>
 
 #include <boost/asio.hpp>
 
@@ -30,11 +34,14 @@ public:
 
     void setTimeout( uint32_t a_milliseconds );
 
+    void stop();
+
 private:
 
     boost::asio::io_context m_io;
     boost::asio::steady_timer m_timer;
     std::shared_ptr<Timer> m_timerHanlder;
+    std::future<void> m_stopFuture;
 };
 
 TimerImpl::TimerImpl()
@@ -47,8 +54,11 @@ TimerImpl::TimerImpl()
 
 void TimerImpl::run()
 {
+    std::promise<void> promise_;
+    m_stopFuture = promise_.get_future();
     auto guard = boost::asio::make_work_guard( m_io );
     m_io.run();
+    promise_.set_value();
 }
 
 void TimerImpl::setTimeout( uint32_t a_milliseconds )
@@ -63,6 +73,15 @@ void TimerImpl::setTimeout( uint32_t a_milliseconds )
         PageManager::GetInstance().PostEvent( event );
     }
     );
+}
+
+void TimerImpl::stop()
+{
+    m_io.stop();
+    if( m_stopFuture.valid() )
+    {
+        m_stopFuture.wait();
+    }
 }
 
 PageManager& PageManager::GetInstance()
@@ -90,7 +109,7 @@ int PageManager::run()
 
     m_runningThread = std::this_thread::get_id();
 
-    while( true )
+    while( m_running )
     {
         locker.lock();
         if( m_messages.empty() )
@@ -112,7 +131,15 @@ int PageManager::run()
             }
         }
     }
+
+    m_timerImpl->stop();
     return ret;
+}
+
+void PageManager::quit()
+{
+    m_running = false;
+    m_notifyCondition.notify_all();
 }
 
 void PageManager::PostEvent( Event&& a_event )
@@ -344,6 +371,8 @@ bool PageManager::IsPageManagerRunningThread()
 
 PageManager::~PageManager()
 {
-    int x = 0;
-    x = 9;
+    if( m_timerThread.joinable() )
+    {
+        m_timerThread.join();
+    }
 }

@@ -3,6 +3,7 @@
 #include <functional>
 #include <future>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <thread>
 
@@ -33,7 +34,12 @@ private:
 
     void read(std::shared_ptr<std::promise<void>> a_promise);
 
+    void handleNewCharRead( char a_ch );
+
     std::thread mThread;
+
+    std::mutex mMutex;
+    std::string mReadString;
 };
 
 #endif

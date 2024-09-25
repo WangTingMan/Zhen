@@ -44,6 +44,8 @@ public:
 
     void ChangedOptionTitle(std::size_t a_id, std::string a_tile);
 
+    std::string GetOptionTile( std::size_t a_id );
+
     void ChangeOptionAction(std::size_t a_id, std::function<void()> a_action);
 
     /**

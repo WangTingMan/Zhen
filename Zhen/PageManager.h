@@ -41,6 +41,8 @@ public:
 
     int run();
 
+    void quit();
+
     void PostEvent( Event&& a_event );
 
     void PostEvent( std::shared_ptr<Event>&& a_event );
@@ -110,7 +112,7 @@ private:
     bool m_running = false;
     std::thread::id m_runningThread;
 
-    std::shared_ptr< TimerImpl> m_timerImpl;
-    std::thread  m_timerThread;
+    std::shared_ptr<TimerImpl> m_timerImpl;
+    std::thread m_timerThread;
 };
 

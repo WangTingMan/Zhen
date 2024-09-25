@@ -55,7 +55,7 @@ std::shared_ptr<Action> Action::MakeQuitAction()
         action = std::make_shared<Action>( "Quit", 'q' );
         action->ConnectActionActived( []( std::string )
         {
-            std::exit( 0 );
+            PageManager::GetInstance().quit();
         }
         );
     }

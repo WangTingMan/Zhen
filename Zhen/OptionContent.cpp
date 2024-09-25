@@ -152,6 +152,18 @@ void OptionContent::ChangedOptionTitle(std::size_t a_id, std::string a_tile)
     }
 }
 
+std::string OptionContent::GetOptionTile( std::size_t a_id )
+{
+    for( auto& ele : m_options )
+    {
+        if( ele.id == a_id )
+        {
+            return ele.option_title;
+        }
+    }
+    return "";
+}
+
 void OptionContent::ChangeOptionAction(std::size_t a_id, std::function<void()> a_action)
 {
     for (auto& ele : m_options)
