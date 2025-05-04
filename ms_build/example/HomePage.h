@@ -31,7 +31,7 @@ private:
     std::string m_currentTimeString;
     std::shared_ptr<OptionContent> m_content;
     std::shared_ptr<StringContent> m_statusContent;
-    boost::signals2::connection m_clockUpdateTimerConnection;
+    boost_ns::signals2::connection m_clockUpdateTimerConnection;
     std::shared_ptr<BasePage> m_confirmPage;
 };
 

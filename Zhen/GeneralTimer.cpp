@@ -26,7 +26,7 @@ uint64_t Timer::GetCurrentMilliseconds()
 struct TimerConnectionType
 {
     Timer::TimerSignal signal;               //!< The signal to pulse
-    boost::signals2::connection connection;  //!< The connection to the signal
+    boost_ns::signals2::connection connection;  //!< The connection to the signal
 };
 
 typedef std::list<TimerConnectionType*> TimerConnectionListType;
@@ -90,7 +90,7 @@ static TimerEntryQueueType gTimers; //!< Queue of timers
 //!
 //! @return the connection to the timer
 //----------------------------------------------------------------
-boost::signals2::connection Timer::connectTo
+boost_ns::signals2::connection Timer::connectTo
     (
     const TimerSignal::slot_type& aSlot,    //!< Slot to make the connection with
     unsigned int aMilliseconds,                 //!< Time that you want the timer to execute its callback function
@@ -181,11 +181,15 @@ void Timer::operator()()
             TimerConnectionType* connection = *connectionIter;
             if( connection->connection.connected() )
             {
-                boost::optional<bool> ret = connection->signal();
+                auto ret = connection->signal();
                 bool isHandled = false;
                 if( ret.has_value() )
                 {
-                    isHandled = ret.get();
+                    #if defined(USE_SIGNAL2_ALONE_LIB)
+                        isHandled = ret.value();
+                    #elif defined(USE_BOOST_ORG_LIB)
+                        isHandled = ret.get();
+                    #endif
                 }
                 if( !isHandled )
                 {

@@ -41,6 +41,7 @@
     <ClInclude Include="..\..\Zhen\Event.h" />
     <ClInclude Include="..\..\Zhen\ExecutbleEvent.h" />
     <ClInclude Include="..\..\Zhen\GeneralTimer.h" />
+    <ClInclude Include="..\..\Zhen\global.h" />
     <ClInclude Include="..\..\Zhen\GuardWatcher.h" />
     <ClInclude Include="..\..\Zhen\KeyBoardInputEvent.h" />
     <ClInclude Include="..\..\Zhen\KeyboardReader.h" />
@@ -116,7 +117,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)../../;E:\local\boost_1_85_0;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)../../;$(ProjectDir)../../../boost_signals2;E:\local\boost_1_95_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

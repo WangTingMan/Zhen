@@ -1,4 +1,5 @@
 #pragma once
+#include "global.h"
 #include "Event.h"
 #include "TitleContent.h"
 
@@ -7,8 +8,6 @@
 #include <vector>
 #include <memory>
 #include <cctype>
-
-#include <boost/signals2.hpp>
 
 class Action
 {
@@ -55,7 +54,7 @@ public:
         return ret;
     }
 
-    boost::signals2::connection ConnectActionActived( std::function<void(std::string)> a_slot )
+    boost_ns::signals2::connection ConnectActionActived( std::function<void(std::string)> a_slot )
     {
         return m_ActionActiveSignal.connect( a_slot );
     }
@@ -93,7 +92,7 @@ private:
 
     void GenerateShowString();
 
-    boost::signals2::signal<void( std::string )> m_ActionActiveSignal;
+    boost_ns::signals2::signal<void( std::string )> m_ActionActiveSignal;
     std::string m_name;
     char        m_target = '\0';
     bool        m_visiable = true;

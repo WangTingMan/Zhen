@@ -4,9 +4,12 @@
 #include "GuardWatcher.h"
 #include "GeneralTimer.h"
 
+#include <atomic>
+#include <condition_variable>
 #include <iostream>
 #include <future>
 #include <memory>
+#include <mutex>
 
 #ifndef _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
 #define _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
@@ -19,8 +22,6 @@
 #endif
 
 #include <conio.h>
-
-#include <boost/asio.hpp>
 
 class TimerImpl
 {
@@ -38,50 +39,75 @@ public:
 
 private:
 
-    boost::asio::io_context m_io;
-    boost::asio::steady_timer m_timer;
+    std::chrono::steady_clock::time_point getWaitDuration();
+
+    std::atomic_bool m_running_flag;
+    std::mutex m_mutex;
+    std::condition_variable m_condition;
+    std::chrono::steady_clock::time_point m_nextAlarmTimepoint;
     std::shared_ptr<Timer> m_timerHanlder;
     std::future<void> m_stopFuture;
 };
 
 TimerImpl::TimerImpl()
-    : m_timer( m_io )
 {
-    m_timer = boost::asio::steady_timer( m_io, std::chrono::seconds( 5 ) );
+    m_running_flag.store(true);
+    m_nextAlarmTimepoint = std::chrono::steady_clock::now() + std::chrono::hours(10);
     m_timerHanlder = std::make_shared<Timer>();
-    m_timerHanlder->SetTimerSetCallback( std::bind( &TimerImpl::setTimeout, this, std::placeholders::_1 ) );
+    m_timerHanlder->SetTimerSetCallback( std::bind( &TimerImpl::setTimeout,
+        this, std::placeholders::_1 ) );
 }
 
 void TimerImpl::run()
 {
     std::promise<void> promise_;
     m_stopFuture = promise_.get_future();
-    auto guard = boost::asio::make_work_guard( m_io );
-    m_io.run();
+    std::chrono::steady_clock::time_point start;
+    while (m_running_flag)
+    {
+        std::chrono::steady_clock::time_point wait_time_point = getWaitDuration();
+        std::unique_lock locker(m_mutex);
+        start = std::chrono::steady_clock::now();
+        std::chrono::milliseconds duration(std::chrono::hours(10));
+        if (start < wait_time_point)
+        {
+            duration = std::chrono::duration_cast<std::chrono::milliseconds>
+                ( wait_time_point - start );
+        }
+        m_condition.wait_for(locker, duration);
+        if (std::chrono::steady_clock::now() - start < duration)
+        {
+            continue;
+        }
+
+        std::shared_ptr<ExecutbleEvent> event = std::make_shared<ExecutbleEvent>(
+            std::bind(&Timer::operator(), m_timerHanlder));
+        PageManager::GetInstance().PostEvent(event);
+    }
     promise_.set_value();
 }
 
 void TimerImpl::setTimeout( uint32_t a_milliseconds )
 {
-    m_timer.cancel();
-    m_timer.expires_at( Timer::GetStartPoint() + std::chrono::milliseconds( a_milliseconds ) );
-    m_timer.async_wait
-    (
-    [this]( const boost::system::error_code& e )
-    {
-        std::shared_ptr<ExecutbleEvent> event = std::make_shared<ExecutbleEvent>( std::bind( &Timer::operator(), m_timerHanlder ) );
-        PageManager::GetInstance().PostEvent( event );
-    }
-    );
+    std::lock_guard locker(m_mutex);
+    m_nextAlarmTimepoint = Timer::GetStartPoint() + std::chrono::milliseconds(a_milliseconds);
+    m_condition.notify_all();
 }
 
 void TimerImpl::stop()
 {
-    m_io.stop();
+    m_running_flag.store(false);
+    m_condition.notify_all();
     if( m_stopFuture.valid() )
     {
         m_stopFuture.wait();
     }
+}
+
+std::chrono::steady_clock::time_point TimerImpl::getWaitDuration()
+{
+    std::lock_guard locker(m_mutex);
+    return m_nextAlarmTimepoint;
 }
 
 PageManager& PageManager::GetInstance()
@@ -328,9 +354,9 @@ std::shared_ptr<BasePage> PageManager::GetTopPage()const
     return nullptr;
 }
 
-boost::signals2::connection PageManager::ConnectPageChanged( std::function<void( PageChangedSignalType, std::shared_ptr<BasePage>, bool ) > a_fun )
+boost_ns::signals2::connection PageManager::ConnectPageChanged( std::function<void( PageChangedSignalType, std::shared_ptr<BasePage>, bool ) > a_fun )
 {
-    boost::signals2::connection con_ = m_pageChangedSignal.connect( a_fun );
+    boost_ns::signals2::connection con_ = m_pageChangedSignal.connect( a_fun );
     return con_;
 }
 
@@ -339,9 +365,9 @@ void PageManager::clearScreen()
     std::system( "cls" );
 }
 
-boost::signals2::connection PageManager::connectTimerTo
+boost_ns::signals2::connection PageManager::connectTimerTo
     (
-    const boost::signals2::signal<bool()>::slot_type& a_slot,
+    const boost_ns::signals2::signal<bool()>::slot_type& a_slot,
     unsigned int                                      a_milliseconds,
     bool                                              a_combine
     )
@@ -349,7 +375,7 @@ boost::signals2::connection PageManager::connectTimerTo
     return m_timerImpl->m_timerHanlder->connectTo( a_slot, a_milliseconds, a_combine );
 }
 
-boost::signals2::connection PageManager::connectOneShotTimerTo
+boost_ns::signals2::connection PageManager::connectOneShotTimerTo
 (
     const std::function<void()>& a_slot,
     unsigned int                 a_milliseconds,

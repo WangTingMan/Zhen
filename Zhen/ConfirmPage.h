@@ -14,7 +14,7 @@ public:
 
     ~ConfirmPage();
 
-    boost::signals2::connection ConnectToYesChoosed
+    boost_ns::signals2::connection ConnectToYesChoosed
         (
         std::function<void()> a_function
         )
@@ -23,7 +23,7 @@ public:
         return m_yesChoosed.connect( a_function );
     }
 
-    boost::signals2::connection ConnectToNoChoosed
+    boost_ns::signals2::connection ConnectToNoChoosed
         (
         std::function<void()> a_function
         )
@@ -32,7 +32,7 @@ public:
         return m_noChoosed.connect( a_function );
     }
 
-    boost::signals2::connection ConnectToPagePoped
+    boost_ns::signals2::connection ConnectToPagePoped
         (
         std::function<void()> a_function
         )
@@ -92,10 +92,10 @@ private:
     std::size_t m_noOptuonId;
     std::string m_yesTitle;
     std::string m_noTitle;
-    boost::signals2::connection m_pageToPopedConnection;
-    boost::signals2::connection m_timeoutTimerConnection;
-    boost::signals2::signal<void()> m_yesChoosed;
-    boost::signals2::signal<void()> m_noChoosed;
-    boost::signals2::signal<void()> m_pagePoped;
+    boost_ns::signals2::connection m_pageToPopedConnection;
+    boost_ns::signals2::connection m_timeoutTimerConnection;
+    boost_ns::signals2::signal<void()> m_yesChoosed;
+    boost_ns::signals2::signal<void()> m_noChoosed;
+    boost_ns::signals2::signal<void()> m_pagePoped;
 };
 

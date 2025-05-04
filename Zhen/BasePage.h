@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 
+#include "global.h"
 #include "Event.h"
 #include "menu.h"
 #include "PageManager.h"
@@ -127,7 +128,7 @@ private:
 
     std::string m_pageName;
 
-    boost::signals2::connection m_combineFreshTimerConnection;
+    boost_ns::signals2::connection m_combineFreshTimerConnection;
 };
 
 #endif

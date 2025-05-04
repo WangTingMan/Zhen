@@ -7,8 +7,7 @@
 #include <functional>
 #include <thread>
 
-#include <boost/signals2.hpp>
-
+#include "global.h"
 #include "Event.h"
 #include "BasePage.h"
 
@@ -72,18 +71,18 @@ public:
 
     std::shared_ptr<BasePage> GetTopPage()const;
 
-    boost::signals2::connection ConnectPageChanged( std::function<void( PageChangedSignalType, std::shared_ptr<BasePage>, bool ) > a_fun );
+    boost_ns::signals2::connection ConnectPageChanged( std::function<void( PageChangedSignalType, std::shared_ptr<BasePage>, bool ) > a_fun );
 
     void FreshTopPageShow();
 
-    boost::signals2::connection connectTimerTo
+    boost_ns::signals2::connection connectTimerTo
         (
-        const boost::signals2::signal<bool()>::slot_type& a_slot,
+        const boost_ns::signals2::signal<bool()>::slot_type& a_slot,
         unsigned int                                      a_milliseconds,
         bool                                              a_combine = true
         );
 
-    boost::signals2::connection connectOneShotTimerTo
+    boost_ns::signals2::connection connectOneShotTimerTo
         (
         const std::function<void()>& a_slot,
         unsigned int                 a_milliseconds,
@@ -108,7 +107,7 @@ private:
     std::vector<std::shared_ptr<Event>> m_messages;
 
     std::list<std::shared_ptr<BasePage>> m_pages;
-    boost::signals2::signal<void( PageChangedSignalType, std::shared_ptr<BasePage>, bool )>  m_pageChangedSignal;
+    boost_ns::signals2::signal<void( PageChangedSignalType, std::shared_ptr<BasePage>, bool )>  m_pageChangedSignal;
     bool m_running = false;
     std::thread::id m_runningThread;
 

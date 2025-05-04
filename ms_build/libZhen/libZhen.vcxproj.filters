@@ -107,5 +107,8 @@
     <ClInclude Include="..\..\Zhen\TitleContent.h">
       <Filter>header files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Zhen\global.h">
+      <Filter>header files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

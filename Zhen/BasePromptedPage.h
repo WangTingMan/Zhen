@@ -29,6 +29,6 @@ public:
 private:
 
     std::shared_ptr<StringContent> m_content;
-    boost::signals2::connection m_pageToPopedConnection;
+    boost_ns::signals2::connection m_pageToPopedConnection;
 };
 

@@ -2,7 +2,7 @@
 #ifndef General_Timer_h__
 #define General_Timer_h__
 
-#include <boost/signals2.hpp>
+#include "global.h"
 #include <functional>
 #include <cstdint>
 #include <chrono>
@@ -14,9 +14,9 @@ public:
 
     //! Timer signal type. Return true if the timer has been handled.
     //! Return false if you no longer want to receive the signal
-    using TimerSignal = boost::signals2::signal<bool()>;
+    using TimerSignal = boost_ns::signals2::signal<bool()>;
 
-    boost::signals2::connection connectTo
+    boost_ns::signals2::connection connectTo
         (
         const TimerSignal::slot_type& aSlot,
         unsigned int                  aMilliseconds,
