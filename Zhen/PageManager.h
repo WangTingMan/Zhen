@@ -15,7 +15,7 @@ class BasePage;
 class Timer;
 class TimerImpl;
 
-class PageManager
+class LIBZHEN_API PageManager
 {
 
 public:

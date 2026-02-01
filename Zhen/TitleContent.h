@@ -1,11 +1,12 @@
 #pragma once
 #include "Event.h"
 #include "BasicContent.h"
+#include "global.h"
 
 #include <memory>
 #include <string>
 
-class TitleContent : public BasicContent
+class LIBZHEN_API TitleContent : public BasicContent
 {
 
 public:

@@ -5,8 +5,10 @@
 #include <vector>
 #include <memory>
 
+#include <Zhen/global.h>
+
 class Event;
-class StrandCommandScheduler
+class LIBZHEN_API StrandCommandScheduler
 {
 
 public:

@@ -9,7 +9,7 @@
 #include <memory>
 #include <cctype>
 
-class Action
+class LIBZHEN_API Action
 {
 public:
 
@@ -98,7 +98,7 @@ private:
     bool        m_visiable = true;
 };
 
-class Menu : public TitleContent
+class LIBZHEN_API Menu : public TitleContent
 {
 
 public:

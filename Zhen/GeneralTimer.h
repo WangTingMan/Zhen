@@ -7,7 +7,7 @@
 #include <cstdint>
 #include <chrono>
 
-class Timer
+class LIBZHEN_API Timer
 {
 
 public:

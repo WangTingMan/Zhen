@@ -3,7 +3,7 @@
 #include "PageManager.h"
 #include "OptionContent.h"
 
-class ConfirmPage : public BasePromptedPage
+class LIBZHEN_API ConfirmPage : public BasePromptedPage
 {
 
 public:

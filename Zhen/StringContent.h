@@ -1,7 +1,7 @@
 #pragma once
 #include "TitleContent.h"
 
-class StringContent : public TitleContent
+class LIBZHEN_API StringContent : public TitleContent
 {
 
 public:

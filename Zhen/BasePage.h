@@ -11,7 +11,7 @@
 #include "PageManager.h"
 #include "TitleContent.h"
 
-class BasePage : public TitleContent
+class LIBZHEN_API BasePage : public TitleContent
 {
 
 public:

@@ -4,6 +4,8 @@
 #include <functional>
 #include <string>
 
+#include <Zhen/global.h>
+
 #ifndef LOG_TAG
 #define LOG_TAG ""
 #endif
@@ -23,17 +25,17 @@ enum class LogLevel
 using LogCallBack = std::function<bool( const char* /*FILE*/, int/*line*/,
     LogLevel, std::string const&/*tag*/, std::string const& ) >;
 
-void SetLogCallBack( LogCallBack a_callBack );
+LIBZHEN_API void SetLogCallBack( LogCallBack a_callBack );
 
 /**
  * set log file name. Will create a log file with name | a_fileName |
  * into folder with name | a_path |.
  */
-void SetLogFileName( std::string a_path, std::string a_fileName );
+LIBZHEN_API void SetLogFileName( std::string a_path, std::string a_fileName );
 
-uint64_t GetCurrentThreadID();
+LIBZHEN_API uint64_t GetCurrentThreadID();
 
-std::string binary_to_hex_string
+LIBZHEN_API std::string binary_to_hex_string
     (
     const char* a_buffer,
     uint16_t a_size
@@ -53,9 +55,9 @@ struct BinaryBuffer
     uint16_t size = 0u;
 };
 
-std::ostream& operator<<( std::ostream& os, BinaryBuffer a_buffer );
+LIBZHEN_API std::ostream& operator<<( std::ostream& os, BinaryBuffer a_buffer );
 
-class LogRecorder
+class LIBZHEN_API LogRecorder
 {
 
     friend class Logger;
@@ -111,7 +113,7 @@ private:
     std::unique_ptr<LogContent> m_loggerContent;
 };
 
-class Logger
+class LIBZHEN_API Logger
 {
 
 public:

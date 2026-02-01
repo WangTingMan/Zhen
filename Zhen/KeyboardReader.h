@@ -7,7 +7,9 @@
 #include <string>
 #include <thread>
 
-class KeyboardReader 
+#include <Zhen/global.h>
+
+class LIBZHEN_API KeyboardReader
 {
 public:
 

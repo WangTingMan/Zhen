@@ -5,7 +5,7 @@
 #include "Zhen/StringContent.h"
 
 class StringContent;
-class BasePromptedPage : public BasePage
+class LIBZHEN_API BasePromptedPage : public BasePage
 {
 
 public:

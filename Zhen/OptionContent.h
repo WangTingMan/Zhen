@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 
-class OptionContent : public TitleContent
+class LIBZHEN_API OptionContent : public TitleContent
 {
 
 public:
