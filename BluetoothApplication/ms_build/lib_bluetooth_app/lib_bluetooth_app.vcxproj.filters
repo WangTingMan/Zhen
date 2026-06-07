@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="header">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="BT">
+      <UniqueIdentifier>{5dea8667-9573-4814-9c73-daaefff5698f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BT\a2dp">
+      <UniqueIdentifier>{b3b5afdb-c0eb-499b-ac83-24ebfbc0d6f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BT\avrcp">
+      <UniqueIdentifier>{37df46a3-514b-4c18-ad23-8b72c2d0feaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BT\common">
+      <UniqueIdentifier>{0ddd2ccd-9fd3-463a-89a8-68cdc8de3bce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BT\GATT">
+      <UniqueIdentifier>{c913b67f-b7f9-43cd-b1d1-413a19ae60dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BT\HID">
+      <UniqueIdentifier>{f2bc9e4b-d4fa-4ad4-aa61-4198b060821c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BT\rfcomm">
+      <UniqueIdentifier>{d5ad6924-128a-45a0-9af2-1400a58e72cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BT\Interface">
+      <UniqueIdentifier>{1e78e9ca-b3e7-4089-8a29-2dd119e9cf7e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\BluetoothHomePage.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageA2dpSource.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageAppleANCS.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageBluetoothDeviceSetting.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageDeviceInformation.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageDeviceList.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageHandfree.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageHandfreeAg.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageHandfreeStatus.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageHidHost.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageMedia.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageMediaStatus.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageRfcomm.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Utils.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\a2dp\BluetoothA2DPSource.cpp">
+      <Filter>BT\a2dp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\avrcp\BluetoothAvrcpController.cpp">
+      <Filter>BT\avrcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\avrcp\BluetoothAvrcpTarget.cpp">
+      <Filter>BT\avrcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\common\BluetoothUuid.cpp">
+      <Filter>BT\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\GATT\BluetoothGattCommon.cpp">
+      <Filter>BT\GATT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\GATT\GattRemoteCharacteristic.cpp">
+      <Filter>BT\GATT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\HID\BluetoothHidHost.cpp">
+      <Filter>BT\HID</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\rfcomm\BluetoothRfcomm.cpp">
+      <Filter>BT\rfcomm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\AbstractModule.cpp">
+      <Filter>BT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\Adaptor.cpp">
+      <Filter>BT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\BluetoothA2DPSink.cpp">
+      <Filter>BT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\BluetoothAddress.cpp">
+      <Filter>BT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\BluetoothCodecConfig.cpp">
+      <Filter>BT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\BluetoothCommonDefs.cpp">
+      <Filter>BT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\BluetoothDevice.cpp">
+      <Filter>BT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\BluetoothHF.cpp">
+      <Filter>BT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\BluetoothHFAG.cpp">
+      <Filter>BT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\BluetoothPhoneBookPCE.cpp">
+      <Filter>BT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\ConnectableModule.cpp">
+      <Filter>BT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\ModuleManager.cpp">
+      <Filter>BT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\Resources.cpp">
+      <Filter>BT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BT\BluetoothPAN.cpp">
+      <Filter>BT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PagePan.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageGatt.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageKanban.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PageKanbanClient.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\BluetoothHomePage.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageA2dpSource.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageAppleANCS.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageBluetoothDeviceSetting.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageDeviceInformation.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageDeviceList.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageHandfree.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageHandfreeAg.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageHandfreeStatus.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageHidHost.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageMedia.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageMediaStatus.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageRfcomm.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Utils.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\a2dp\BluetoothA2DPSource.h">
+      <Filter>BT\a2dp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\avrcp\BluetoothAvrcpController.h">
+      <Filter>BT\avrcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\avrcp\BluetoothAvrcpInterface.h">
+      <Filter>BT\avrcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\avrcp\BluetoothAvrcpTarget.h">
+      <Filter>BT\avrcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\common\BluetoothUuid.h">
+      <Filter>BT\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\GATT\BluetoothGattCommon.h">
+      <Filter>BT\GATT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\GATT\GattRemoteCharacteristic.h">
+      <Filter>BT\GATT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\GATT\GattRemoteDescriptor.h">
+      <Filter>BT\GATT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\HID\BluetoothHidHost.h">
+      <Filter>BT\HID</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\rfcomm\BluetoothRfcomm.h">
+      <Filter>BT\rfcomm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\AbstractModule.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\Adaptor.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\BluetoothA2DPSink.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\BluetoothAddress.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\BluetoothCodecConfig.hpp">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\BluetoothCodecStatus.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\BluetoothCommonDefs.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\BluetoothDevice.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\BluetoothHF.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\BluetoothHFAG.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\BluetoothLocalDevice.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\BluetoothPhoneBookPCE.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\ConnectableModule.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\ModuleManager.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\Resources.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\StackLayer\BluetoothA2DPInterface.h">
+      <Filter>BT\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\StackLayer\BluetoothA2DPSinkInterface.h">
+      <Filter>BT\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\StackLayer\BluetoothAdvScanningInterface.h">
+      <Filter>BT\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\StackLayer\BluetoothAvrcpTargetInterface.h">
+      <Filter>BT\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\StackLayer\BluetoothBaseInterface.h">
+      <Filter>BT\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\StackLayer\BluetoothGattClientInterface.h">
+      <Filter>BT\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\StackLayer\BluetoothGattServerInterface.h">
+      <Filter>BT\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\StackLayer\BluetoothHFAGInterface.h">
+      <Filter>BT\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\StackLayer\BluetoothHFInterface.h">
+      <Filter>BT\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\StackLayer\BluetoothHidHostInterface.h">
+      <Filter>BT\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\StackLayer\BluetoothL2capSocketInterface.h">
+      <Filter>BT\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\StackLayer\BluetoothRfcommInterface.h">
+      <Filter>BT\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\StackLayer\BluetoothPANInterface.h">
+      <Filter>BT\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\BluetoothPAN.h">
+      <Filter>BT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PagePan.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageGatt.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageKanban.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageKanbanClient.h">
+      <Filter>header</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
