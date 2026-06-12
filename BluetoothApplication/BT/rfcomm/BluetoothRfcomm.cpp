@@ -26,10 +26,10 @@ int BluetoothRfcomm::Init()
 {
     BluetoothRfcommInterface::GetInterface().Init();
 
-    std::string service_name = "BlueSPP for Android";
+    std::string service_name = "SPP test port";
     std::vector<uint8_t> service_spp_uuid{0x00, 0x00, 0x11, 0x01, 0x00, 0x00, 0x10, 0x00, 0x80, 0x00,
                 0x00, 0x80, 0x5f, 0x9b, 0x34, 0xfb};
-    int channel = 4;
+    int channel = 0;
     std::function<void()> fun = std::bind( &BluetoothRfcomm::Listen, GetMoudle(),
                                            service_name, service_spp_uuid, channel );
     auto executableEvent = std::make_shared<ExecutbleEvent>( fun );
@@ -43,7 +43,7 @@ bool BluetoothRfcomm::Connect
     BluetoothAddress a_address
     )
 {
-    return true;
+    return BluetoothRfcommInterface::GetInterface().Connect( a_address, "", 0 );
 }
 
 bool BluetoothRfcomm::Disconnect

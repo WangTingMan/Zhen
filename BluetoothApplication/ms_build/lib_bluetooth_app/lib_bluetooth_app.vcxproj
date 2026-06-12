@@ -174,7 +174,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ExternalIncludePath>$(ProjectDir)../../;E:\VCLAB\component\Zhen;E:\VCLAB\component\boost_signals2;E:\VCLAB\component\chromebase;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>$(ProjectDir)../../;$(ProjectDir)../../../;$(ProjectDir)../../../../boost_signals2;$(ProjectDir)../../../../chromebase;$(ExternalIncludePath)</ExternalIncludePath>
+    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -219,6 +220,7 @@
       <AdditionalOptions>/Zc:preprocessor /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <DisableSpecificWarnings>4251;4275</DisableSpecificWarnings>
+      <ObjectFileName>$(OutDir)app/%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>

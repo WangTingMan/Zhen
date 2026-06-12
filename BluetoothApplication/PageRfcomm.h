@@ -24,6 +24,11 @@ public:
 //Handle the user input event
 private:
 
+    bool HandleConnectRequest
+        (
+        std::string const& a_input
+        );
+
 //Handle the signal changed from BT
 private:
 

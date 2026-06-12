@@ -8,6 +8,7 @@
 #include "PageGatt.h"
 #include "PageHidHost.h"
 #include "PagePan.h"
+#include "PageRfcomm.h"
 
 #include "Zhen/OptionContent.h"
 #include "Zhen/PageManager.h"
@@ -145,6 +146,18 @@ BluetoothHomePage::BluetoothHomePage()
             std::shared_ptr<BasePage> page = m_panPage;
             PageManager::GetInstance().PushPage(std::move(page));
         });
+
+    content->AddOption( "FRCOMM",
+        [ this ]()mutable
+        {
+            if( !m_rfcommPage )
+            {
+                m_rfcommPage = std::make_shared<PageRfcomm>();
+            }
+
+            std::shared_ptr<BasePage> page = m_rfcommPage;
+            PageManager::GetInstance().PushPage( std::move( page ) );
+        } );
 
     content->SetTitle( "Basic Operations" );
     m_content = content;
