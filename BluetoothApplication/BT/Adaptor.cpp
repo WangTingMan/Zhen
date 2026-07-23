@@ -22,11 +22,6 @@
 
 using Bluetooth::BluetoothHF;
 
-#pragma comment(lib,"libbinder.lib")
-#pragma comment(lib,"libutils.lib")
-#pragma comment(lib,"libbinderwrapper.lib")
-#pragma comment(lib,"libcutils.lib")
-
 Adaptor::Adaptor()
 {
     m_moduleManager = std::make_shared<ModuleManager>();
