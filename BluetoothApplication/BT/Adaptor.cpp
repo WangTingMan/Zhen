@@ -36,6 +36,23 @@ Adaptor& Adaptor::GetInstance()
 
 void Adaptor::OnDeviceFound( const RemoteDevice& a_device )
 {
+    bool foundPaired = false;
+    for( auto it = m_pairedDevices.begin(); it != m_pairedDevices.end(); ++it )
+    {
+        if( it->address == a_device.address )
+        {
+            foundPaired = true;
+            *it = a_device;
+            break;
+        }
+    }
+
+    if( foundPaired )
+    {
+        m_devicePairedSignal();
+        return;
+    }
+
     auto it = std::find_if( m_foundDevices.begin(), m_foundDevices.end(),
     [&]( const RemoteDevice& ele )
     {
@@ -168,6 +185,10 @@ void Adaptor::OnPairedDeviceReceived
     {
         if( it->address == a_device.address )
         {
+            if( a_device.name.empty() )
+            {
+                a_device.name = it->name;
+            }
             it = m_foundDevices.erase( it );
             break;
         }
@@ -194,48 +215,6 @@ void Adaptor::OnPairedDeviceReceived
 
     m_devicePairedSignal();
 
-}
-
-void Adaptor::OnDevicePropertiesChanged
-    (
-    RemoteDevice a_device
-    )
-{
-    bool foundSearched = false;
-    for( auto it = m_foundDevices.begin(); it != m_foundDevices.end(); ++it )
-    {
-        if( it->address == a_device.address )
-        {
-            *it = a_device;
-            foundSearched = true;
-            break;
-        }
-    }
-
-    if( foundSearched )
-    {
-        m_deviceFounSignal();
-        return;
-    }
-
-    bool foundPaired = false;
-    for( auto it = m_pairedDevices.begin(); it != m_pairedDevices.end(); ++it )
-    {
-        if( it->address == a_device.address )
-        {
-            foundPaired = true;
-            *it = a_device;
-            break;
-        }
-    }
-
-    if( foundPaired )
-    {
-        m_devicePairedSignal();
-        return;
-    }
-
-    LogDebug() << "unknown how to deal with such device with device name: " << a_device.name;
 }
 
 void Adaptor::AdapterStateChanged

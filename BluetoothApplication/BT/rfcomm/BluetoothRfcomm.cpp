@@ -87,6 +87,11 @@ bool BluetoothRfcomm::Listen
     return BluetoothRfcommInterface::GetInterface().listen( a_service_name, a_service_uuid, port->id, a_channel );
 }
 
+void BluetoothRfcomm::CustomTest()
+{
+    BluetoothRfcommInterface::GetInterface().custom_test();
+}
+
 void BluetoothRfcomm::HandleListenPortChanged( int a_user_id, int a_port )
 {
     for( auto ele : m_local_listen_port )

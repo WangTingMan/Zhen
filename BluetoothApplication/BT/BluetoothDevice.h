@@ -31,6 +31,11 @@ public:
         m_address = a_addr;
     }
 
+    BluetoothAddress GetAddress() const
+    {
+        return m_address;
+    }
+
 private:
 
     std::string m_deviceName;

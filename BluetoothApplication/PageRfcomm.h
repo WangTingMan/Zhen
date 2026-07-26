@@ -29,6 +29,8 @@ private:
         std::string const& a_input
         );
 
+    bool HandleCustomTest();
+
 //Handle the signal changed from BT
 private:
 

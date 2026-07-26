@@ -74,6 +74,15 @@ void TimerImpl::run()
             duration = std::chrono::duration_cast<std::chrono::milliseconds>
                 ( wait_time_point - start );
         }
+        else
+        {
+            auto dur = std::chrono::duration_cast< std::chrono::milliseconds >
+                ( start - wait_time_point );
+            if( dur < std::chrono::milliseconds( 10 ) )
+            {
+                duration = dur;
+            }
+        }
         m_condition.wait_for(locker, duration);
         if (std::chrono::steady_clock::now() - start < duration)
         {

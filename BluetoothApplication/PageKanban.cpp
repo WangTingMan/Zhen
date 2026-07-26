@@ -12,6 +12,7 @@
 static std::vector<uint8_t> s_kanban_service_uuid{ 0x00, 0x02, 0x03, 0x73, 0x9b, 0xf0, 0x46, 0x1f, 0xb5, 0x6a, 0x54, 0x4a, 0xbf, 0x69, 0xe9, 0xe5 };
 static std::vector<uint8_t> s_kanban_screen_power_uuid{ 0x01, 0x02, 0x03, 0x73, 0x9b, 0xf0, 0x46, 0x1f, 0xb5, 0x6a, 0x54, 0x4a, 0xbf, 0x69, 0xe9, 0xe5 };
 static std::vector<uint8_t> s_kanban_media_src_uuid{ 0x01, 0x02, 0x07, 0x73, 0x9b, 0xf0, 0x46, 0x1f, 0xb5, 0x6a, 0x54, 0x4a, 0xbf, 0x69, 0xe9, 0xe5 };
+static std::vector<uint8_t> s_kanban_signal_uuid{ 0x01, 0x02, 0x07, 0x73, 0x9b, 0xf0, 0x46, 0x1f, 0xb5, 0x6a, 0x54, 0x4a, 0xbf, 0x69, 0xe9, 0xe5 };
 
 #define CHARACTERISTIC_USER_DESCRIPTION_UUID 0x2901
 #define CHARACTERISTIC_CLIENT_CONFIGURATION_UUID 0x2902
@@ -26,6 +27,7 @@ public:
     int m_connection_id = 0x00;
     bool m_media_source_notification_enabled = false;
     bool m_screen_on_off_notification_enabled = false;
+    bool m_signal_notifycation_enabled = false;
 };
 
 /**
@@ -36,8 +38,6 @@ public:
 PageKanban::PageKanban()
     : m_kanbanRegisterUuid{ 0x19, 0x44, 0x69, 0x73, 0x9b, 0xf0, 0x46, 0x1f, 0xb5, 0x6a, 0x54, 0x4a, 0xbf, 0x69, 0xe9, 0xe5 }
 {
-    constexpr uint16_t value1 = PROPERTY_READ | PROPERTY_WRITE | PROPERTY_WRITE_WITHOUT_RSP | PROPERTY_NOTIFY | PROPERTY_INDICATION;
-
     SetTitle( "Kanban Server" );
 
     m_content = std::make_shared<OptionContent>();
@@ -52,6 +52,16 @@ PageKanban::PageKanban()
 
     m_screen_on_off_dsp_string.assign( "This is a switch to turn the screen on and off." );
     m_media_dsp_string.assign( "This is a media source." );
+
+    bool valid = true;
+    BluetoothUuid uuid = BluetoothUuid::FromString( "fa160f66-2025-0415-1401-ab43865686ef", &valid );
+    s_kanban_service_uuid.assign( uuid.uu, uuid.uu + BluetoothUuid::kNumBytes128 );
+
+    uuid = BluetoothUuid::FromString( "fa160f66-2025-0415-1401-ab4386568601", &valid );
+    s_kanban_media_src_uuid.assign( uuid.uu, uuid.uu + BluetoothUuid::kNumBytes128 );
+
+    uuid = BluetoothUuid::FromString( "fa160f66-2025-0415-1401-ab4386568600", &valid );
+    s_kanban_signal_uuid.assign( uuid.uu, uuid.uu + BluetoothUuid::kNumBytes128 );
 }
 
 PageKanban::~PageKanban()
@@ -116,6 +126,10 @@ void PageKanban::connect_signals()
     connection = interface_->connect_to_client_request_write_descriptor_request(
         std::bind( &PageKanban::handle_client_request_write_descriptor_request, this, _1, _2, _3, _4, _5, _6, _7, _8 ) );
     m_connections.push_back( connection );
+
+    connection = interface_->ConnectToIndicationSent(
+        std::bind( &PageKanban::handle_indication_notify_sent_done, this, _1, _2 ) );
+    m_connections.push_back( connection );
 }
 
 void PageKanban::RegisterService()
@@ -177,25 +191,23 @@ void PageKanban::start_media_test( bool a_start )
         return;
     }
 
+    for( auto& client : m_kanban_clients )
+    {
+        BluetoothGattClientInterface::GetInterface().UpdateConnectionParameters
+            (
+            client->m_client_addr,
+            12,
+            12,
+            0,
+            0x96,
+            0x01,
+            0x7CFF
+            );
+    }
+
     m_media_test_enabled = a_start;
-    if( m_media_test_enabled )
-    {
-        if( !m_media_test_timer_connection.connected() )
-        {
-            m_media_test_timer_connection = PageManager::GetInstance().connectTimerTo
-                (
-                std::bind(&PageKanban::handle_media_test_timer_event, this),
-                5000
-                );
-        }
-    }
-    else
-    {
-        if( m_media_test_timer_connection.connected() )
-        {
-            m_media_test_timer_connection.disconnect();
-        }
-    }
+    bool result = handle_media_test_event();
+    m_media_test_enabled = result;
 }
 
 void PageKanban::register_service_body()
@@ -270,22 +282,64 @@ void PageKanban::register_service_body()
     service_elements.push_back( element );
     m_media_client_conf_handle_index = index++;
 
+    /*4. 添加特性(特征)定义*/
+    /*4.1. 添加一个看板的信令控制特性，客户端可以发送自定义信令过来*/
+    element.clear();
+    element.uuid = s_kanban_signal_uuid;
+    element.type = gatt_db_attribute_type::BTGATT_DB_CHARACTERISTIC;
+    element.properties = PROPERTY_NOTIFY | PROPERTY_INDICATION;
+    element.permissions = ATTRIBUTE_PERM_READ | ATTRIBUTE_PERM_WRITE_ENC_MITM;
+    service_elements.push_back( element );
+    m_signal_handle_index = index++;
+
+    /*3.1.1 添加上面多媒体特性的描述，一个字符串*/
+    element.clear();
+    element.uuid.assign( drscptor_uuid.uu, drscptor_uuid.uu + BluetoothUuid::kNumBytes128 );
+    element.type = gatt_db_attribute_type::BTGATT_DB_DESCRIPTOR;
+    element.properties = PROPERTY_READ;
+    element.permissions = ATTRIBUTE_PERM_READ;
+    service_elements.push_back( element );
+    m_signal_dsc_handle_index = index++;
+
+    element.clear();
+    element.uuid.assign( client_config_uuid.uu, client_config_uuid.uu + BluetoothUuid::kNumBytes128 );
+    element.type = gatt_db_attribute_type::BTGATT_DB_DESCRIPTOR;
+    element.properties = PROPERTY_READ;
+    element.permissions = ATTRIBUTE_PERM_READ | ATTRIBUTE_PERM_WRITE_ENC_MITM;
+    service_elements.push_back( element );
+    m_siganl_config_handle_index = index++;
     BluetoothGattServerInterface::GetInterface().AddServiceBody( m_server_if, service_elements );
 }
 
-bool PageKanban::handle_media_test_timer_event()
+bool PageKanban::handle_media_test_event()
 {
+    if( m_media_packt_notifing )
+    {
+        return false;
+    }
+
+    if( !m_media_test_enabled )
+    {
+        return false;
+    }
+
+    m_media_packet_count++;
     uint8_t index = 0;
     uint16_t buffer_size = 244;
 
     std::vector<uint8_t> buffer;
     buffer.reserve(buffer_size);
+    if( (m_media_packet_count & 0x01) == 0x01 )
+    {
+        index = 1;
+    }
 
     for( uint16_t i = 0; i < buffer_size; ++i )
     {
         buffer.push_back(index++);
     }
 
+    bool started = false;
     std::shared_ptr<kanban_client> client;
     for( auto _client : m_kanban_clients )
     {
@@ -301,12 +355,13 @@ bool PageKanban::handle_media_test_timer_event()
                     0,
                     buffer
                     );
+                started = true;
             }
             break;
         }
     }
 
-    return true;
+    return started;
 }
 
 void PageKanban::handle_register_service_result
@@ -584,6 +639,8 @@ void PageKanban::handle_client_write_characteristic_request
         BluetoothGattServerInterface::GetInterface().SendResponse( conn_id, trans_id, 0, response );
         return;
     }
+
+    LogInfo() << "not reply";
 }
 
 void PageKanban::handle_client_request_write_descriptor_request
@@ -643,5 +700,30 @@ void PageKanban::handle_client_request_write_descriptor_request
         BluetoothGattServerInterface::GetInterface().SendResponse( conn_id, trans_id, 0, response );
         return;
     }
+
+    if( index == m_siganl_config_handle_index )
+    {
+        std::bitset<8> sets( value[0] );
+        bool notify_enable = sets[0];
+        client->m_signal_notifycation_enabled = notify_enable;
+
+        GATTResponseContent response;
+        response.value = ( uint8_t* )value.data();
+        response.len = value.size();
+        response.offset = 0;
+        response.handle = attr_handle;
+        BluetoothGattServerInterface::GetInterface().SendResponse( conn_id, trans_id, 0, response );
+        return;
+    }
+
+    LogInfo() << "not reply";
 }
 
+void PageKanban::handle_indication_notify_sent_done
+    (
+    int trans_id,
+    int status
+    )
+{
+    handle_media_test_event();
+}

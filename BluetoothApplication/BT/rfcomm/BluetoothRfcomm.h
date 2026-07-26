@@ -52,6 +52,8 @@ public:
         int a_channel = 0
         );
 
+    void CustomTest();
+
 public:
 
     void HandleListenPortChanged(int a_user_id, int a_port);

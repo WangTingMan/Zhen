@@ -44,5 +44,6 @@ public:
         int a_channel = 0
         ) = 0;
 
+    virtual void custom_test() = 0;
 };
 

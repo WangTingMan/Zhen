@@ -72,6 +72,11 @@ public:
         return m_localDevice.GetName();
     }
 
+    BluetoothAddress GetLocalAddress()const
+    {
+        return m_localDevice.GetAddress();
+    }
+
     //! Set local device settings
     //! @return whether the request was passed successfully to stack
     bool SetLocalDeviceSettings
@@ -249,11 +254,6 @@ public:
     }
 
     void OnPairedDeviceReceived
-        (
-        RemoteDevice a_device
-        );
-
-    void OnDevicePropertiesChanged
         (
         RemoteDevice a_device
         );

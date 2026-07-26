@@ -35,7 +35,7 @@ private:
 
     void register_service_body();
 
-    bool handle_media_test_timer_event();
+    bool handle_media_test_event();
 
     void handle_register_service_result
         (
@@ -103,6 +103,12 @@ private:
         std::vector<uint8_t> value
         );
 
+    void handle_indication_notify_sent_done
+        (
+        int trans_id,
+        int status
+        );
+
     std::shared_ptr<OptionContent> m_content;
     std::vector<uint8_t> m_kanbanRegisterUuid;
     std::vector<GATT_DB_ELEMENT> service_body_elements;
@@ -117,6 +123,9 @@ private:
     uint16_t m_media_handle_index = 0;
     uint16_t m_media_dsc_handle_index = 0;
     uint16_t m_media_client_conf_handle_index = 0;
+    uint16_t m_signal_handle_index = 0;
+    uint16_t m_signal_dsc_handle_index = 0;
+    uint16_t m_siganl_config_handle_index = 0;
     std::map<uint16_t/*index*/, uint16_t/*handle*/> m_characteristic_index_handle_map;
     std::map<uint16_t/*handle*/, uint16_t/*index*/> m_characteristic_handle_index_map;
 
@@ -124,7 +133,8 @@ private:
     std::string m_media_dsp_string;
     bool m_screen_on_off = true; /*the screen on/off state currently*/
     bool m_media_test_enabled = false;
-    boost_ns::signals2::connection m_media_test_timer_connection;
+    bool m_media_packt_notifing = false;
+    uint16_t m_media_packet_count = 0;
 };
 
 

@@ -20,6 +20,8 @@ PageRfcomm::PageRfcomm()
             );
             m_commandScheduler.start();
         } );
+
+    m_content->AddOption( "Custom Test", std::bind( &PageRfcomm::HandleCustomTest, this ) );
 }
 
 PageRfcomm::~PageRfcomm()
@@ -124,6 +126,12 @@ bool PageRfcomm::HandleConnectRequest
         }
     }
     return done;
+}
+
+bool PageRfcomm::HandleCustomTest()
+{
+    Bluetooth::BluetoothRfcomm::GetMoudle()->CustomTest();
+    return true;
 }
 
 void PageRfcomm::UpdateStatusContent()
