@@ -235,17 +235,6 @@ void Adaptor::AdapterStateChanged
     }
 }
 
-int Adaptor::Init()
-{
-    if( !m_initialized )
-    {
-        BluetoothBaseInterface::GetInterface().Init();
-        logging::SetMinLogLevel( -20 );
-        m_initialized = true;
-    }
-    return 0;
-}
-
 void Adaptor::deinit()
 {
     if( m_initialized )
@@ -264,7 +253,13 @@ void Adaptor::Enable()
     m_enableState = AdaptorEnableState::Enabling;
     m_enableStateChangedSignal( m_enableState );
 
+    m_low_level_interfaces = BluetoothBaseInterface::LoadLowLevelInterfaces();
     BluetoothBaseInterface::GetInterface().Enable();
+
+    for( auto& inter : m_low_level_interfaces )
+    {
+        inter->Init();
+    }
 }
 
 void Adaptor::disable()

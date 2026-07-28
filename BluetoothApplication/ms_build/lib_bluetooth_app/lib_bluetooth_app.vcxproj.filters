@@ -159,6 +159,9 @@
     <ClCompile Include="..\..\PageKanbanClient.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\PageL2CAP.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\BluetoothHomePage.h">
@@ -308,7 +311,7 @@
     <ClInclude Include="..\..\BT\StackLayer\BluetoothHidHostInterface.h">
       <Filter>BT\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\BT\StackLayer\BluetoothL2capSocketInterface.h">
+    <ClInclude Include="..\..\BT\StackLayer\bluetooth_l2cap_coc_interface.h">
       <Filter>BT\Interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\BT\StackLayer\BluetoothRfcommInterface.h">
@@ -330,6 +333,12 @@
       <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="..\..\PageKanbanClient.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BT\StackLayer\bluetooth_interface.h">
+      <Filter>BT\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PageL2CAP.h">
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>

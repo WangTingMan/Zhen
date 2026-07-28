@@ -32,6 +32,7 @@ private:
     std::shared_ptr<BasePage> m_hidHostPage;
     std::shared_ptr<BasePage> m_panPage;
     std::shared_ptr<BasePage> m_rfcommPage;
+    std::shared_ptr<BasePage> m_l2capPage;
     std::shared_ptr<OptionContent> m_content;
 };
 

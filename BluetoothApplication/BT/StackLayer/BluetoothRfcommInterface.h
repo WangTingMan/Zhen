@@ -1,16 +1,23 @@
 #pragma once
 #include <BT/BluetoothAddress.h>
+#include <BT/StackLayer/bluetooth_interface.h>
 
 #include <cstdint>
 #include <string>
 #include <vector>
 
-class BluetoothRfcommInterface
+class BluetoothRfcommInterface : public bluetooth_interface
 {
 
 public:
 
     static BluetoothRfcommInterface& GetInterface();
+
+    BluetoothRfcommInterface()
+        : bluetooth_interface( bluetooth_interface_type::rfcomm )
+    {
+
+    }
 
     virtual ~BluetoothRfcommInterface(){}
 

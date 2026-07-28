@@ -54,6 +54,7 @@
     <ClCompile Include="..\..\PageHidHost.cpp" />
     <ClCompile Include="..\..\PageKanban.cpp" />
     <ClCompile Include="..\..\PageKanbanClient.cpp" />
+    <ClCompile Include="..\..\PageL2CAP.cpp" />
     <ClCompile Include="..\..\PageMedia.cpp" />
     <ClCompile Include="..\..\PageMediaStatus.cpp" />
     <ClCompile Include="..\..\PagePan.cpp" />
@@ -98,7 +99,8 @@
     <ClInclude Include="..\..\BT\StackLayer\BluetoothHFAGInterface.h" />
     <ClInclude Include="..\..\BT\StackLayer\BluetoothHFInterface.h" />
     <ClInclude Include="..\..\BT\StackLayer\BluetoothHidHostInterface.h" />
-    <ClInclude Include="..\..\BT\StackLayer\BluetoothL2capSocketInterface.h" />
+    <ClInclude Include="..\..\BT\StackLayer\bluetooth_interface.h" />
+    <ClInclude Include="..\..\BT\StackLayer\bluetooth_l2cap_coc_interface.h" />
     <ClInclude Include="..\..\BT\StackLayer\BluetoothPANInterface.h" />
     <ClInclude Include="..\..\BT\StackLayer\BluetoothRfcommInterface.h" />
     <ClInclude Include="..\..\PageA2dpSource.h" />
@@ -113,6 +115,7 @@
     <ClInclude Include="..\..\PageHidHost.h" />
     <ClInclude Include="..\..\PageKanban.h" />
     <ClInclude Include="..\..\PageKanbanClient.h" />
+    <ClInclude Include="..\..\PageL2CAP.h" />
     <ClInclude Include="..\..\PageMedia.h" />
     <ClInclude Include="..\..\PageMediaStatus.h" />
     <ClInclude Include="..\..\PagePan.h" />

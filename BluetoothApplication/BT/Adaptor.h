@@ -6,10 +6,12 @@
 #include "ModuleManager.h"
 #include "StackLayer/BluetoothBaseInterface.h"
 #include "common/BluetoothUuid.h"
+#include <BT/StackLayer/bluetooth_interface.h>
 
 #include <Zhen/global.h>
 
 #include <list>
+#include <memory>
 #include <vector>
 
 struct RemoteDevice
@@ -134,6 +136,18 @@ public:
     std::shared_ptr<ModuleManager> GetModuleManager()const
     {
         return m_moduleManager;
+    }
+
+    std::shared_ptr<bluetooth_interface> GetLowLevelInterface( bluetooth_interface_type a_type )
+    {
+        for( auto& ele : m_low_level_interfaces )
+        {
+            if( ele->get_interface_type() == a_type )
+            {
+                return ele;
+            }
+        }
+        return nullptr;
     }
 
 // The signals connection functions
@@ -262,8 +276,6 @@ public:
 
 private:
 
-    int Init();
-
     struct PairingRequestData
     {
         BluetoothAddress address;
@@ -292,5 +304,7 @@ private:
     boost_ns::signals2::signal<void(BluetoothAddress, std::string, uint32_t)> m_sppPairingRequestSignal;
     boost_ns::signals2::signal<void(BluetoothAddress, std::string, bool)> m_pincodeRequestSignal;
     boost_ns::signals2::signal<void( AdaptorEnableState )> m_enableStateChangedSignal;
+
+    std::vector<std::shared_ptr<bluetooth_interface>> m_low_level_interfaces;
 };
 

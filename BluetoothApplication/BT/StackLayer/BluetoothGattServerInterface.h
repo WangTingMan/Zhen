@@ -3,6 +3,7 @@
 #include <BT/BluetoothAddress.h>
 #include <BT/BluetoothCommonDefs.h>
 #include <BT/GATT/BluetoothGattCommon.h>
+#include <BT/StackLayer/bluetooth_interface.h>
 
 #include <Zhen/global.h>
 
@@ -34,12 +35,18 @@ struct GATTResponseContent
     uint16_t offset;
 };
 
-class BluetoothGattServerInterface
+class BluetoothGattServerInterface : public bluetooth_interface
 {
 
 public:
 
     static BluetoothGattServerInterface& GetInterface();
+
+    BluetoothGattServerInterface()
+        : bluetooth_interface( bluetooth_interface_type::gatt_server )
+    {
+
+    }
 
     virtual void Init() = 0;
 

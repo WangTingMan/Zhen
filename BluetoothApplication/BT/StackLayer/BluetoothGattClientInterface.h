@@ -2,6 +2,7 @@
 #include <BT/BluetoothAddress.h>
 #include <BT/BluetoothCommonDefs.h>
 #include <BT/GATT/BluetoothGattCommon.h>
+#include <BT/StackLayer/bluetooth_interface.h>
 
 #include <cstdint>
 #include <functional>
@@ -210,12 +211,18 @@ struct DiscoveryDoneMessage : public GattClientBaseMessage
     BluetoothAddress address;
 };
 
-class BluetoothGattClientInterface
+class BluetoothGattClientInterface : public bluetooth_interface
 {
 
 public:
 
     static BluetoothGattClientInterface& GetInterface();
+
+    BluetoothGattClientInterface()
+        : bluetooth_interface( bluetooth_interface_type::gatt_client )
+    {
+
+    }
 
     virtual ~BluetoothGattClientInterface(){}
 

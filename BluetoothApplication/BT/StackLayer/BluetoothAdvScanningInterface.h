@@ -1,11 +1,18 @@
-#pragma once
+#pragma once 
+#include <BT/StackLayer/bluetooth_interface.h>
 
-class BluetoothAdvScanningInterface
+class BluetoothAdvScanningInterface : public bluetooth_interface
 {
 
 public:
 
     static BluetoothAdvScanningInterface& GetInterface();
+
+    BluetoothAdvScanningInterface()
+        : bluetooth_interface( bluetooth_interface_type::adv_scanning )
+    {
+
+    }
 
     virtual ~BluetoothAdvScanningInterface(){}
 

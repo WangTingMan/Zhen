@@ -1,12 +1,19 @@
 #pragma once
 #include <BT/BluetoothAddress.h>
+#include <BT/StackLayer/bluetooth_interface.h>
 
-class BluetoothHidHostInterface
+class BluetoothHidHostInterface : public bluetooth_interface
 {
 
 public:
 
     static BluetoothHidHostInterface& GetInterface();
+
+    BluetoothHidHostInterface()
+        : bluetooth_interface( bluetooth_interface_type::hid_host )
+    {
+
+    }
 
     virtual ~BluetoothHidHostInterface(){}
 

@@ -1,12 +1,19 @@
 #pragma once
 #include <BT/BluetoothAddress.h>
+#include <BT/StackLayer/bluetooth_interface.h>
 
-class BluetoothA2DPInterface
+class BluetoothA2DPInterface : public bluetooth_interface
 {
 
 public:
 
     static BluetoothA2DPInterface& GetInterface();
+
+    BluetoothA2DPInterface()
+        : bluetooth_interface( bluetooth_interface_type::a2dp_source )
+    {
+
+    }
 
     virtual ~BluetoothA2DPInterface(){}
 

@@ -4,15 +4,25 @@
 #include "BT/BluetoothAddress.h"
 #include "BT/BluetoothCommonDefs.h"
 
+#include <BT/StackLayer/bluetooth_interface.h>
+
 #include <memory>
 #include <vector>
 
-class BluetoothBaseInterface
+class BluetoothBaseInterface : public bluetooth_interface
 {
 
 public:
 
     static BluetoothBaseInterface& GetInterface();
+
+    static std::vector<std::shared_ptr<bluetooth_interface>> LoadLowLevelInterfaces();
+
+    BluetoothBaseInterface()
+        : bluetooth_interface(bluetooth_interface_type::base_type)
+    {
+
+    }
 
     virtual ~BluetoothBaseInterface()
     {

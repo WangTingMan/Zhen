@@ -9,6 +9,7 @@
 #include "PageHidHost.h"
 #include "PagePan.h"
 #include "PageRfcomm.h"
+#include "PageL2CAP.h"
 
 #include "Zhen/OptionContent.h"
 #include "Zhen/PageManager.h"
@@ -156,6 +157,18 @@ BluetoothHomePage::BluetoothHomePage()
             }
 
             std::shared_ptr<BasePage> page = m_rfcommPage;
+            PageManager::GetInstance().PushPage( std::move( page ) );
+        } );
+
+    content->AddOption( "L2CAP COC",
+        [ this ]()mutable
+        {
+            if( !m_l2capPage )
+            {
+                m_l2capPage = std::make_shared<PageL2CAP>();
+            }
+
+            std::shared_ptr<BasePage> page = m_l2capPage;
             PageManager::GetInstance().PushPage( std::move( page ) );
         } );
 
