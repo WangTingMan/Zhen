@@ -51,6 +51,14 @@ public:
         m_connectable = a_connectable;
     }
 
+    void SetPairable
+        (
+        bool a_pairable = false
+        )
+    {
+        m_pairable = a_pairable;
+    }
+
 private:
 
     bool m_pairable = false;      //!< [in] whether BT module is pairable

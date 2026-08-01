@@ -267,6 +267,14 @@ public:
         m_localDevice.SetConnectable( a_connectable );
     }
 
+    void OnPairableChanged
+        (
+        bool a_pairable
+        )
+    {
+        m_localDevice.SetPairable( a_pairable );
+    }
+
     void OnPairedDeviceReceived
         (
         RemoteDevice a_device
