@@ -57,22 +57,30 @@ bool BluetoothA2DPSink::Disconnect
 }
 
 void BluetoothA2DPSink::GetConnectionStatus
-(
+    (
     BluetoothAddress& a_address,
     ConnectionStatus& a_status
-)
+    )
 {
+    if( !m_impl )
+    {
+        return;
+    }
     a_address = m_impl->m_address;
     a_status = m_impl->m_status;
 }
 
 void BluetoothA2DPSink::GetAudioConfig
-(
+    (
     BluetoothAddress& a_address,
     uint32_t& sample_rate,
     uint8_t& channel_count
-)
+    )
 {
+    if( !m_impl )
+    {
+        return;
+    }
     a_address = m_impl->m_address;
     sample_rate = m_impl->m_sampleRate;
     channel_count = m_impl->m_channelCount;
